@@ -1,0 +1,324 @@
+{
+    "name": "k6",
+    "description": null,
+    "permissions": "PUBLIC_READ_WRITE",
+    "pages": [
+      {
+        "name": "k6",
+        "description": null,
+        "widgets": [
+          {
+            "title": "",
+            "layout": {
+              "column": 1,
+              "row": 1,
+              "width": 1,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.markdown"
+            },
+            "rawConfiguration": {
+              "text": "![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/K6-logo.svg/1200px-K6-logo.svg.png)"
+            }
+          },
+          {
+            "title": "Number of Virtual Users",
+            "layout": {
+              "column": 2,
+              "row": 1,
+              "width": 4,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.area"
+            },
+            "rawConfiguration": {
+              "facet": {
+                "showOtherSeries": false
+              },
+              "legend": {
+                "enabled": true
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "SELECT latest(k6.vus) FROM Metric TIMESERIES"
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              }
+            }
+          },
+          {
+            "title": "Max, Median, and Average Request Duration",
+            "layout": {
+              "column": 6,
+              "row": 1,
+              "width": 4,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.line"
+            },
+            "rawConfiguration": {
+              "facet": {
+                "showOtherSeries": false
+              },
+              "legend": {
+                "enabled": true
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "SELECT max(k6.http_req_duration.summary) AS 'Max Duration', average(k6.http_req_duration.median) AS 'Median', average(k6.http_req_duration.mean) AS 'Avg' FROM Metric TIMESERIES"
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              },
+              "yAxisLeft": {
+                "zero": true
+              }
+            }
+          },
+          {
+            "title": "Scrolling List of all k6 Performance Metrics",
+            "layout": {
+              "column": 10,
+              "row": 1,
+              "width": 3,
+              "height": 9
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.table"
+            },
+            "rawConfiguration": {
+              "facet": {
+                "showOtherSeries": false
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "SELECT uniques(metricName) FROM Metric WHERE metricName LIKE 'k6%' LIMIT MAX"
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              }
+            }
+          },
+          {
+            "title": "Rate of Requests (per second)",
+            "layout": {
+              "column": 2,
+              "row": 4,
+              "width": 4,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.area"
+            },
+            "rawConfiguration": {
+              "facet": {
+                "showOtherSeries": false
+              },
+              "legend": {
+                "enabled": true
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "SELECT rate(max(k6.http_reqs), 1 seconds) FROM Metric TIMESERIES"
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              }
+            }
+          },
+          {
+            "title": "Histogram bucketing Requests",
+            "layout": {
+              "column": 6,
+              "row": 4,
+              "width": 4,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.histogram"
+            },
+            "rawConfiguration": {
+              "legend": {
+                "enabled": true
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "SELECT histogram(`k6.http_reqs`, 80, 20) FROM Metric"
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              },
+              "yAxisLeft": {
+                "zero": true
+              }
+            }
+          },
+          {
+            "title": "Data Sent and Data Received",
+            "layout": {
+              "column": 2,
+              "row": 7,
+              "width": 4,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.line"
+            },
+            "rawConfiguration": {
+              "facet": {
+                "showOtherSeries": false
+              },
+              "legend": {
+                "enabled": true
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "SELECT sum(k6.data_received) as 'Data Received', max(k6.data_sent) AS 'Data Sent' FROM Metric TIMESERIES "
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              },
+              "yAxisLeft": {
+                "zero": true
+              }
+            }
+          },
+          {
+            "title": "Rate of Change in the Number of Requests",
+            "layout": {
+              "column": 6,
+              "row": 7,
+              "width": 4,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.line"
+            },
+            "rawConfiguration": {
+              "facet": {
+                "showOtherSeries": false
+              },
+              "legend": {
+                "enabled": true
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "SELECT derivative(k6.http_reqs, 30 seconds) AS 'Rate /reqs' FROM Metric TIMESERIES"
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              },
+              "yAxisLeft": {
+                "zero": true
+              }
+            }
+          },
+          {
+            "title": "Blocked Requests",
+            "layout": {
+              "column": 2,
+              "row": 10,
+              "width": 4,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.area"
+            },
+            "rawConfiguration": {
+              "facet": {
+                "showOtherSeries": false
+              },
+              "legend": {
+                "enabled": true
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "FROM Metric SELECT sum(k6.http_req_blocked.per_second) as 'Blocked Requests' timeseries 10 seconds since 30 minutes ago"
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              }
+            }
+          },
+          {
+            "title": "Response timings - 90th",
+            "layout": {
+              "column": 6,
+              "row": 10,
+              "width": 4,
+              "height": 3
+            },
+            "linkedEntityGuids": null,
+            "visualization": {
+              "id": "viz.area"
+            },
+            "rawConfiguration": {
+              "facet": {
+                "showOtherSeries": false
+              },
+              "legend": {
+                "enabled": true
+              },
+              "nrqlQueries": [
+                {
+                  "accountIds": [
+                    3507716
+                  ],
+                  "query": "SELECT sum(k6.http_req_duration.sum.percentiles) as '90th' FROM Metric WHERE percentile = 90 TIMESERIES 10 seconds SINCE 1800 seconds ago"
+                }
+              ],
+              "platformOptions": {
+                "ignoreTimeRange": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "variables": []
+  }
